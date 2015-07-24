@@ -58,7 +58,7 @@ public class LanDiscoveryPlugin {
                     @Override
                     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
                         setMuted(!isMuted());
-                        Text message = Texts.of(TextColors.AQUA, "LAN broadcast", muted ? Texts.of(TextColors.RED, "muted") : Texts.of(TextColors.GREEN, "unmuted"));
+                        Text message = Texts.of(TextColors.AQUA, "LAN broadcast ", muted ? Texts.of(TextColors.RED, "muted") : Texts.of(TextColors.GREEN, "unmuted"));
                         src.sendMessage(message);
                         logger.info(Texts.toPlain(message) + " by " + src.getName());
                         return CommandResult.success();
