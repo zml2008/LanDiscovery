@@ -5,16 +5,21 @@
   <artifactId>landiscovery</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>LanDiscovery</name>
-  <description xml:space="preserve">
+  <description>
       Broadcast the server this plugin is running on, as if it were a LAN server
   </description>
+  <licenses>
+    <license>
+      <name>GNU Affero General Public License v3</name>
+      <url>https://gnu.org/licenses/agpl-3.0.txt</url>
+    </license>
+  </licenses>
   <properties>
     <siteUrlSuffix>${project.version}</siteUrlSuffix>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <ghUser>zml2008</ghUser>
     <ghRepo>LanBroadcast</ghRepo>
     <ghProject>${ghUser}/${ghRepo}</ghProject>
-
   </properties>
 
   <url>https://${ghUser}.github.io/${ghRepo}</url>
@@ -34,7 +39,7 @@
       <url>github:http://${ghUser}.github.io/${ghRepo}/${siteUrlSuffix}/</url>
     </site>
   </distributionManagement>
-    <prerequisites>
+  <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
   <profiles>
@@ -168,6 +173,41 @@
           <releaseProfiles>release</releaseProfiles>
         </configuration>
       </plugin>
+      <plugin>
+      <groupId>com.mycila</groupId>
+      <artifactId>license-maven-plugin</artifactId>
+      <version>2.11</version>
+      <configuration>
+        <header>com/mycila/maven/plugin/license/templates/AGPL-3.txt</header>
+        <properties>
+          <owner>Mycila</owner>
+          <email>mathieu.carbou@gmail.com</email>
+        </properties>
+        <includes>
+          <include>src/**</include>
+        </includes>
+        <excludes>
+          <exclude>**/README</exclude>
+          <exclude>src/test/resources/**</exclude>
+          <exclude>src/main/resources/**</exclude>
+        </excludes>
+      </configuration>
+      <executions>
+        <execution>
+          <id>format-header</id>
+          <goals>
+            <goal>format</goal>
+          </goals>
+          <phase>process-sources</phase>
+        </execution>
+        <execution>
+          <id>check-header</id>
+          <goals>
+            <goal>check</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
     </plugins>
   </build>
   <dependencies>
