@@ -18,7 +18,7 @@
     <siteUrlSuffix></siteUrlSuffix>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <ghUser>zml2008</ghUser>
-    <ghRepo>LanBroadcast</ghRepo>
+    <ghRepo>LanDiscovery</ghRepo>
     <ghProject>${ghUser}/${ghRepo}</ghProject>
   </properties>
 
