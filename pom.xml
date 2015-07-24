@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ninja.leaping</groupId>
   <artifactId>landiscovery</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>LanDiscovery</name>
   <description>
       Broadcast the server this plugin is running on, as if it were a LAN server
@@ -15,7 +15,7 @@
     </license>
   </licenses>
   <properties>
-    <siteUrlSuffix></siteUrlSuffix>
+    <siteUrlSuffix />
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <ghUser>zml2008</ghUser>
     <ghRepo>LanDiscovery</ghRepo>
@@ -31,6 +31,7 @@
     <connection>scm:git:git://github.com/${ghProject}.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/${ghProject}.git</developerConnection>
     <url>https://github.com/${ghProject}</url>
+    <tag>1.0</tag>
   </scm>
   <distributionManagement>
     <site>
