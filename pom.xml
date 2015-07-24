@@ -15,7 +15,7 @@
     </license>
   </licenses>
   <properties>
-    <siteUrlSuffix>${project.version}</siteUrlSuffix>
+    <siteUrlSuffix></siteUrlSuffix>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <ghUser>zml2008</ghUser>
     <ghRepo>LanBroadcast</ghRepo>
@@ -29,7 +29,7 @@
   </issueManagement>
   <scm>
     <connection>scm:git:git://github.com/${ghProject}.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com${ghProject}.git</developerConnection>
+    <developerConnection>scm:git:ssh://git@github.com/${ghProject}.git</developerConnection>
     <url>https://github.com/${ghProject}</url>
   </scm>
   <distributionManagement>
