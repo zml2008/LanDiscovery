@@ -35,7 +35,7 @@ class LanThread extends Thread {
     /**
      * broadcast interval in seconds
      */
-    private static final int BROADCAST_INTERVAL = 3;
+    private static final int BROADCAST_INTERVAL = 2;
     private static final InetAddress BROADCAST_ADDRESS;
     private static final int BROADCAST_PORT = 4445;
 
@@ -49,6 +49,7 @@ class LanThread extends Thread {
 
     private final LanDiscoveryPlugin plugin;
     private MulticastSocket socket;
+    private int broadcastInterval = BROADCAST_INTERVAL;
 
     public LanThread(LanDiscoveryPlugin plugin) {
         super("LAN Discovery");
@@ -86,11 +87,14 @@ class LanThread extends Thread {
             try {
                 byte[] contents = getContents();
                 socket.send(new DatagramPacket(contents, contents.length, BROADCAST_ADDRESS, BROADCAST_PORT));
+                broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                broadcastInterval *= 2;
+                plugin.getLogger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
             }
+
             try {
-                Thread.sleep(BROADCAST_INTERVAL * 1000);
+                Thread.sleep(broadcastInterval * 1000);
             } catch (InterruptedException e1) {
                 break;
             }

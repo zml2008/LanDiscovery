@@ -50,7 +50,7 @@ public class LanDiscoveryPlugin {
     private volatile boolean muted;
 
     @Subscribe
-    public void onPreInit(PreInitializationEvent event) {
+    private void onPreInit(PreInitializationEvent event) {
         game.getCommandDispatcher().register(this, CommandSpec.builder()
                 .description(Texts.of("Toggle muted state of LAN discovery broadcast"))
                 .permission("landiscovery.mute")
@@ -68,7 +68,7 @@ public class LanDiscoveryPlugin {
     }
 
     @Subscribe
-    public void onServerStarted(ServerStartedEvent event) {
+    private void onServerStarted(ServerStartedEvent event) {
         LanThread thread = new LanThread(this);
         if (lanThread.compareAndSet(null, thread)) {
             thread.start();
@@ -76,7 +76,7 @@ public class LanDiscoveryPlugin {
     }
 
     @Subscribe
-    public void disable(ServerStoppedEvent event) {
+    private void disable(ServerStoppedEvent event) {
         LanThread oldThread = lanThread.getAndSet(null);
         if (oldThread != null) {
             oldThread.interrupt();
@@ -99,5 +99,9 @@ public class LanDiscoveryPlugin {
 
     Game getGame() {
         return game;
+    }
+
+    Logger getLogger() {
+        return logger;
     }
 }
