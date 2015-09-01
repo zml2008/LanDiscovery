@@ -19,10 +19,10 @@ package ninja.leaping.landiscovery;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.state.PreInitializationEvent;
-import org.spongepowered.api.event.state.ServerStartedEvent;
-import org.spongepowered.api.event.state.ServerStoppedEvent;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStartedServerEvent;
+import org.spongepowered.api.event.game.state.GameStoppedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
@@ -49,8 +49,8 @@ public class LanDiscoveryPlugin {
     private final AtomicReference<LanThread> lanThread = new AtomicReference<LanThread>();
     private volatile boolean muted;
 
-    @Subscribe
-    private void onPreInit(PreInitializationEvent event) {
+    @Listener
+    private void onPreInit(GamePreInitializationEvent event) {
         game.getCommandDispatcher().register(this, CommandSpec.builder()
                 .description(Texts.of("Toggle muted state of LAN discovery broadcast"))
                 .permission("landiscovery.mute")
@@ -67,16 +67,16 @@ public class LanDiscoveryPlugin {
 
     }
 
-    @Subscribe
-    private void onServerStarted(ServerStartedEvent event) {
+    @Listener
+    private void onServerStarted(GameStartedServerEvent event) {
         LanThread thread = new LanThread(this);
         if (lanThread.compareAndSet(null, thread)) {
             thread.start();
         }
     }
 
-    @Subscribe
-    private void disable(ServerStoppedEvent event) {
+    @Listener
+    private void disable(GameStoppedServerEvent event) {
         LanThread oldThread = lanThread.getAndSet(null);
         if (oldThread != null) {
             oldThread.interrupt();
