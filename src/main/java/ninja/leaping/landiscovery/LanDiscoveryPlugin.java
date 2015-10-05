@@ -27,11 +27,7 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.command.CommandException;
 import org.spongepowered.api.util.command.CommandResult;
-import org.spongepowered.api.util.command.CommandSource;
-import org.spongepowered.api.util.command.args.CommandContext;
-import org.spongepowered.api.util.command.spec.CommandExecutor;
 import org.spongepowered.api.util.command.spec.CommandSpec;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,7 +42,7 @@ public class LanDiscoveryPlugin {
     @Inject private Logger logger;
     @Inject private Game game;
 
-    private final AtomicReference<LanThread> lanThread = new AtomicReference<LanThread>();
+    private final AtomicReference<LanThread> lanThread = new AtomicReference<>();
     private volatile boolean muted;
 
     @Listener
@@ -54,15 +50,12 @@ public class LanDiscoveryPlugin {
         game.getCommandDispatcher().register(this, CommandSpec.builder()
                 .description(Texts.of("Toggle muted state of LAN discovery broadcast"))
                 .permission("landiscovery.mute")
-                .executor(new CommandExecutor() {
-                    @Override
-                    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-                        setMuted(!isMuted());
-                        Text message = Texts.of(TextColors.AQUA, "LAN broadcast ", muted ? Texts.of(TextColors.RED, "muted") : Texts.of(TextColors.GREEN, "unmuted"));
-                        src.sendMessage(message);
-                        logger.info(Texts.toPlain(message) + " by " + src.getName());
-                        return CommandResult.success();
-                    }
+                .executor((src, args) -> {
+                    setMuted(!isMuted());
+                    Text message = Texts.of(TextColors.AQUA, "LAN broadcast ", muted ? Texts.of(TextColors.RED, "muted") : Texts.of(TextColors.GREEN, "unmuted"));
+                    src.sendMessage(message);
+                    logger.info(Texts.toPlain(message) + " by " + src.getName());
+                    return CommandResult.success();
                 }).build(), "lanmute");
 
     }
