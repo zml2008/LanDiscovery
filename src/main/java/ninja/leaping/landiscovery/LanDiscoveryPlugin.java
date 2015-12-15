@@ -27,8 +27,8 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.command.CommandResult;
-import org.spongepowered.api.util.command.spec.CommandSpec;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.spec.CommandSpec;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -47,7 +47,7 @@ public class LanDiscoveryPlugin {
 
     @Listener
     public void onPreInit(GamePreInitializationEvent event) {
-        game.getCommandDispatcher().register(this, CommandSpec.builder()
+        game.getCommandManager().register(this, CommandSpec.builder()
                 .description(Texts.of("Toggle muted state of LAN discovery broadcast"))
                 .permission("landiscovery.mute")
                 .executor((src, args) -> {
