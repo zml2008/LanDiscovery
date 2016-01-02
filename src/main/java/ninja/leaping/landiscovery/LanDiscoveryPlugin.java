@@ -25,7 +25,6 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -48,13 +47,13 @@ public class LanDiscoveryPlugin {
     @Listener
     public void onPreInit(GamePreInitializationEvent event) {
         game.getCommandManager().register(this, CommandSpec.builder()
-                .description(Texts.of("Toggle muted state of LAN discovery broadcast"))
+                .description(Text.of("Toggle muted state of LAN discovery broadcast"))
                 .permission("landiscovery.mute")
                 .executor((src, args) -> {
                     setMuted(!isMuted());
-                    Text message = Texts.of(TextColors.AQUA, "LAN broadcast ", muted ? Texts.of(TextColors.RED, "muted") : Texts.of(TextColors.GREEN, "unmuted"));
+                    Text message = Text.of(TextColors.AQUA, "LAN broadcast ", muted ? Text.of(TextColors.RED, "muted") : Text.of(TextColors.GREEN, "unmuted"));
                     src.sendMessage(message);
-                    logger.info(Texts.toPlain(message) + " by " + src.getName());
+                    logger.info(message.toPlain() + " by " + src.getName());
                     return CommandResult.success();
                 }).build(), "lanmute");
 

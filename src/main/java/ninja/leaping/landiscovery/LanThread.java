@@ -16,7 +16,8 @@
  */
 package ninja.leaping.landiscovery;
 
-import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -73,7 +74,7 @@ class LanThread extends Thread {
     private byte[] getContents() {
         // format: [MOTD]<motd in legacy formatting>[/MOTD][AD]<port number>[/AD]
         return String.format("[MOTD]%s[/MOTD][AD]%d[/AD]",
-                Texts.legacy().to(plugin.getGame().getServer().getMotd()),
+                TextSerializers.LEGACY_FORMATTING_CODE.serialize(plugin.getGame().getServer().getMotd()),
                 plugin.getGame().getServer().getBoundAddress().get().getPort()).getBytes(UTF8_CHARSET);
     }
 
