@@ -16,7 +16,6 @@
  */
 package ninja.leaping.landiscovery;
 
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.IOException;
