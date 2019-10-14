@@ -21,17 +21,17 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class originally from Spout's Vanilla project, adapted for Sponge and changes in Minecraft.
  * The original file from Spout is Copyright (c) 2011 Spout LLC <http://www.spout.org/>, available under the terms of the MIT license
  */
 class LanThread extends Thread {
-    private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
     /**
      * broadcast interval in seconds
      */
@@ -51,7 +51,7 @@ class LanThread extends Thread {
     private MulticastSocket socket;
     private int broadcastInterval = BROADCAST_INTERVAL;
 
-    public LanThread(LanDiscoveryPlugin plugin) {
+    LanThread(LanDiscoveryPlugin plugin) {
         super("LAN Discovery");
         setDaemon(true);
         this.plugin = plugin;
@@ -60,9 +60,7 @@ class LanThread extends Thread {
     public void start() {
         try {
             socket = new MulticastSocket();
-        } catch (SocketException e) {
-            throw new RuntimeException(e);
-        } catch (UnknownHostException e) {
+        } catch (SocketException | UnknownHostException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,25 +70,25 @@ class LanThread extends Thread {
 
     private byte[] getContents() {
         // format: [MOTD]<motd in legacy formatting>[/MOTD][AD]<port number>[/AD]
+
         return String.format("[MOTD]%s[/MOTD][AD]%d[/AD]",
-                TextSerializers.LEGACY_FORMATTING_CODE.serialize(plugin.getGame().getServer().getMotd()),
-                plugin.getGame().getServer().getBoundAddress().get().getPort()).getBytes(UTF8_CHARSET);
+                TextSerializers.formattingCode('&').serialize(plugin.getGame().getServer().getMotd()),
+                plugin.getGame().getServer().getBoundAddress().map(InetSocketAddress::getPort).orElse(25565))
+                .getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     public void run() {
         while (!this.isInterrupted()) {
-            if (plugin.isMuted()) {
-                continue;
-            }
-
-            try {
-                byte[] contents = getContents();
-                socket.send(new DatagramPacket(contents, contents.length, BROADCAST_ADDRESS, BROADCAST_PORT));
-                broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
-            } catch (IOException e) {
-                broadcastInterval *= 2;
-                plugin.getLogger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
+            if (!plugin.isMuted()) {
+                try {
+                    byte[] contents = getContents();
+                    socket.send(new DatagramPacket(contents, contents.length, BROADCAST_ADDRESS, BROADCAST_PORT));
+                    broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
+                } catch (IOException e) {
+                    broadcastInterval *= 2;
+                    plugin.getLogger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
+                }
             }
 
             try {
