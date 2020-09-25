@@ -1,18 +1,19 @@
-/**
- * This file is part of LanDiscovery.
+/*
+ * LanDiscovery - Broadcast the server this plugin is running on, as if it were a LAN server
+ * Copyright ©2015-2020 zml
  *
- * LanDiscovery is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * LanDiscovery is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with LanDiscovery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ninja.leaping.landiscovery;
 
@@ -34,7 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A simple sponge plugin
  */
-@Plugin(id = PomData.ARTIFACT_ID, name = PomData.NAME, version = PomData.VERSION)
+@Plugin(id = ProjectData.ARTIFACT_ID, name = ProjectData.NAME, version = ProjectData.VERSION)
 public class LanDiscoveryPlugin {
 
     // These are all injected on plugin load for users to work from

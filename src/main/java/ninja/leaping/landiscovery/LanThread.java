@@ -1,18 +1,19 @@
-/**
- * This file is part of LanDiscovery.
+/*
+ * LanDiscovery - Broadcast the server this plugin is running on, as if it were a LAN server
+ * Copyright ©2015-2020 zml
  *
- * LanDiscovery is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * LanDiscovery is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with LanDiscovery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ninja.leaping.landiscovery;
 
@@ -29,7 +30,9 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * This class originally from Spout's Vanilla project, adapted for Sponge and changes in Minecraft.
- * The original file from Spout is Copyright (c) 2011 Spout LLC <http://www.spout.org/>, available under the terms of the MIT license
+ *
+ * <p>The original file from Spout is Copyright (c) 2011 Spout LLC <a href="http://www.spout.org/">http://www.spout.org</a>,
+ * available under the terms of the MIT license.</p>
  */
 class LanThread extends Thread {
     /**
