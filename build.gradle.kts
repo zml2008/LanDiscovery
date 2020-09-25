@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "ca.stellardrift"
-version = "1.0.3-SNAPSHOT"
+version = "2.0-SNAPSHOT"
 description = "Let Sponge servers be discovered in the LAN server discovery"
 
 opinionated {
@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor(implementation("org.spongepowered:spongeapi:7.3.0")!!)
+    annotationProcessor(implementation("org.spongepowered:spongeapi:8.0.0-SNAPSHOT")!!)
 }
 
 tasks {
@@ -43,7 +43,7 @@ tasks {
     processResources {
         inputs.property("version", version)
 
-        filesMatching("*.yml") {
+        filesMatching("**/*.yml") {
             expand("project" to project)
             convertFormat(ConfigFormats.YAML, ConfigFormats.GSON)
             name = name.substringBeforeLast('.') + ".json"

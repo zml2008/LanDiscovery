@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ninja.leaping.landiscovery;
+package ca.stellardrift.landiscovery;
 
-import org.spongepowered.api.text.serializer.TextSerializers;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -75,7 +75,7 @@ class LanThread extends Thread {
         // format: [MOTD]<motd in legacy formatting>[/MOTD][AD]<port number>[/AD]
 
         return String.format("[MOTD]%s[/MOTD][AD]%d[/AD]",
-                TextSerializers.formattingCode('&').serialize(plugin.getGame().getServer().getMotd()),
+                LegacyComponentSerializer.legacySection().serialize(plugin.getGame().getServer().getMotd()),
                 plugin.getGame().getServer().getBoundAddress().map(InetSocketAddress::getPort).orElse(25565))
                 .getBytes(StandardCharsets.UTF_8);
     }
