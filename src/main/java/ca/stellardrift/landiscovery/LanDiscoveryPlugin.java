@@ -18,6 +18,7 @@
 package ca.stellardrift.landiscovery;
 
 import com.google.inject.Inject;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.LinearComponents;
 import net.kyori.adventure.text.TextComponent;
@@ -62,12 +63,12 @@ public class LanDiscoveryPlugin {
     @Listener
     public void registerCommands(RegisterCommandEvent<Command.Parameterized> event) {
         event.register(this.container, Command.builder()
-                .setShortDescription(TextComponent.of("Toggle muted state of LAN discovery broadcast"))
+                .setShortDescription(Component.text("Toggle muted state of LAN discovery broadcast"))
                 .setPermission("landiscovery.mute")
                 .setExecutor(ctx -> {
                     setMuted(!isMuted());
-                    final Component message = LinearComponents.linear(NamedTextColor.AQUA, TextComponent.of("LAN broadcast "), muted(this.isMuted()));
-                    ctx.sendMessage(message);
+                    final Component message = LinearComponents.linear(NamedTextColor.AQUA, Component.text("LAN broadcast "), muted(this.isMuted()));
+                    ctx.sendMessage(Identity.nil(), message);
                     logger.info(plain().serialize(message) + " by " + ctx.getFriendlyIdentifier().orElse(ctx.getIdentifier()));
                     return CommandResult.success();
                 }).build(), "lanmute");
@@ -76,9 +77,9 @@ public class LanDiscoveryPlugin {
 
     private TextComponent muted(final boolean muted) {
         if (muted) {
-            return TextComponent.of("muted", NamedTextColor.RED);
+            return Component.text("muted", NamedTextColor.RED);
         } else {
-            return TextComponent.of("unmuted", NamedTextColor.GREEN);
+            return Component.text("unmuted", NamedTextColor.GREEN);
         }
     }
 
