@@ -4,7 +4,7 @@ import ca.stellardrift.build.configurate.ConfigFormats
 import ca.stellardrift.build.configurate.transformations.convertFormat
 
 plugins {
-    val pluginVersion = "4.0.1"
+    val pluginVersion = "4.1"
     id("ca.stellardrift.opinionated") version pluginVersion
     id("ca.stellardrift.configurate-transformations") version pluginVersion
     id("ca.stellardrift.templating") version pluginVersion
@@ -15,7 +15,9 @@ version = "2.0-SNAPSHOT"
 description = "Let Sponge servers be discovered in the LAN server discovery"
 
 indra {
-    github("zml2008", "LanDiscovery")
+    github("zml2008", "LanDiscovery") {
+        ci = true
+    }
     agpl3()
 }
 opinionated {
