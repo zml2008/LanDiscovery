@@ -1,5 +1,4 @@
 import ca.stellardrift.build.common.agpl3
-import ca.stellardrift.build.common.sponge
 import ca.stellardrift.build.configurate.ConfigFormats
 import ca.stellardrift.build.configurate.transformations.convertFormat
 
@@ -25,7 +24,15 @@ opinionated {
 }
 
 repositories {
-    sponge()
+    maven("https://repo.stellardrift.ca/repository/stable/") {
+        name = "stellardriftReleases"
+        mavenContent { releasesOnly() }
+    }
+
+    maven("https://repo.stellardrift.ca/repository/snapshots/") {
+        name = "stellardriftSnapshots"
+        mavenContent { snapshotsOnly() }
+    }
 }
 
 dependencies {
@@ -33,12 +40,6 @@ dependencies {
 }
 
 tasks {
-    jar {
-        manifest.attributes(
-                "Loader" to "java_plain"
-        )
-    }
-
     processResources {
         inputs.property("version", version)
 

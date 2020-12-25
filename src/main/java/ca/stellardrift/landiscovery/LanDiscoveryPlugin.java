@@ -43,7 +43,7 @@ import static net.kyori.adventure.text.serializer.plain.PlainComponentSerializer
  * A simple sponge plugin
  */
 @Plugin(ProjectData.ARTIFACT_ID)
-public class LanDiscoveryPlugin {
+public final class LanDiscoveryPlugin {
 
     // These are all injected on plugin load for users to work from
     private final PluginContainer container;
@@ -61,7 +61,7 @@ public class LanDiscoveryPlugin {
     }
 
     @Listener
-    public void registerCommands(RegisterCommandEvent<Command.Parameterized> event) {
+    public void registerCommands(final RegisterCommandEvent<Command.Parameterized> event) {
         event.register(this.container, Command.builder()
                 .setShortDescription(Component.text("Toggle muted state of LAN discovery broadcast"))
                 .setPermission("landiscovery.mute")
@@ -69,7 +69,7 @@ public class LanDiscoveryPlugin {
                     setMuted(!isMuted());
                     final Component message = LinearComponents.linear(NamedTextColor.AQUA, Component.text("LAN broadcast "), muted(this.isMuted()));
                     ctx.sendMessage(Identity.nil(), message);
-                    logger.info(plain().serialize(message) + " by " + ctx.getFriendlyIdentifier().orElse(ctx.getIdentifier()));
+                    this.logger.info(plain().serialize(message) + " by " + ctx.getFriendlyIdentifier().orElse(ctx.getIdentifier()));
                     return CommandResult.success();
                 }).build(), "lanmute");
 
@@ -84,16 +84,16 @@ public class LanDiscoveryPlugin {
     }
 
     @Listener
-    public void onServerStarted(StartedEngineEvent<Server> event) {
-        LanThread thread = new LanThread(this);
-        if (lanThread.compareAndSet(null, thread)) {
+    public void onServerStarted(final StartedEngineEvent<Server> event) {
+        final LanThread thread = new LanThread(this);
+        if (this.lanThread.compareAndSet(null, thread)) {
             thread.start();
         }
     }
 
     @Listener
-    public void disable(StoppingEngineEvent<Server> event) {
-        LanThread oldThread = lanThread.getAndSet(null);
+    public void disable(final StoppingEngineEvent<Server> event) {
+        final LanThread oldThread = this.lanThread.getAndSet(null);
         if (oldThread != null) {
             oldThread.interrupt();
         }
@@ -109,15 +109,15 @@ public class LanDiscoveryPlugin {
         return this.muted;
     }
 
-    public void setMuted(boolean muted) {
+    public void setMuted(final boolean muted) {
         this.muted = muted;
     }
 
     Game getGame() {
-        return game;
+        return this.game;
     }
 
     Logger getLogger() {
-        return logger;
+        return this.logger;
     }
 }

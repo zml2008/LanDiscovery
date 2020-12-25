@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets;
  * <p>The original file from Spout is Copyright (c) 2011 Spout LLC <a href="http://www.spout.org/">http://www.spout.org</a>,
  * available under the terms of the MIT license.</p>
  */
-class LanThread extends Thread {
+final class LanThread extends Thread {
     /**
      * broadcast interval in seconds
      */
@@ -54,7 +54,7 @@ class LanThread extends Thread {
     private MulticastSocket socket;
     private int broadcastInterval = BROADCAST_INTERVAL;
 
-    LanThread(LanDiscoveryPlugin plugin) {
+    LanThread(final LanDiscoveryPlugin plugin) {
         super("LAN Discovery");
         setDaemon(true);
         this.plugin = plugin;
@@ -62,7 +62,7 @@ class LanThread extends Thread {
 
     public void start() {
         try {
-            socket = new MulticastSocket();
+            this.socket = new MulticastSocket();
         } catch (SocketException | UnknownHostException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -74,28 +74,29 @@ class LanThread extends Thread {
     private byte[] getContents() {
         // format: [MOTD]<motd in legacy formatting>[/MOTD][AD]<port number>[/AD]
 
-        return String.format("[MOTD]%s[/MOTD][AD]%d[/AD]",
-                LegacyComponentSerializer.legacySection().serialize(plugin.getGame().getServer().getMotd()),
-                plugin.getGame().getServer().getBoundAddress().map(InetSocketAddress::getPort).orElse(25565))
-                .getBytes(StandardCharsets.UTF_8);
+        return String.format(
+                "[MOTD]%s[/MOTD][AD]%d[/AD]",
+                LegacyComponentSerializer.legacySection().serialize(plugin.getGame().getServer().getMOTD()),
+                plugin.getGame().getServer().getBoundAddress().map(InetSocketAddress::getPort).orElse(25565)
+        ).getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     public void run() {
         while (!this.isInterrupted()) {
-            if (!plugin.isMuted()) {
+            if (!this.plugin.isMuted()) {
                 try {
                     byte[] contents = getContents();
-                    socket.send(new DatagramPacket(contents, contents.length, BROADCAST_ADDRESS, BROADCAST_PORT));
-                    broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
+                    this.socket.send(new DatagramPacket(contents, contents.length, BROADCAST_ADDRESS, BROADCAST_PORT));
+                    this.broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
                 } catch (IOException e) {
-                    broadcastInterval *= 2;
-                    plugin.getLogger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
+                    this.broadcastInterval *= 2;
+                    this.plugin.getLogger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
                 }
             }
 
             try {
-                Thread.sleep(broadcastInterval * 1000);
+                Thread.sleep(this.broadcastInterval * 1000);
             } catch (InterruptedException e1) {
                 break;
             }
