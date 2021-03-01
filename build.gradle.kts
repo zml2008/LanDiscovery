@@ -3,7 +3,7 @@ import ca.stellardrift.build.configurate.ConfigFormats
 import ca.stellardrift.build.configurate.transformations.convertFormat
 
 plugins {
-    val pluginVersion = "4.1"
+    val pluginVersion = "4.2"
     id("ca.stellardrift.opinionated") version pluginVersion
     id("ca.stellardrift.configurate-transformations") version pluginVersion
     id("ca.stellardrift.templating") version pluginVersion
