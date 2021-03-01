@@ -85,9 +85,11 @@ public final class LanDiscoveryPlugin {
 
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
-        final LanThread thread = new LanThread(this);
-        if (this.lanThread.compareAndSet(null, thread)) {
-            thread.start();
+        if (event.getEngine().isDedicatedServer()) {
+            final LanThread thread = new LanThread(this);
+            if (this.lanThread.compareAndSet(null, thread)) {
+                thread.start();
+            }
         }
     }
 
