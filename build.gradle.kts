@@ -1,12 +1,14 @@
 import ca.stellardrift.build.common.agpl3
-import ca.stellardrift.build.configurate.ConfigFormats
-import ca.stellardrift.build.configurate.transformations.convertFormat
+import ca.stellardrift.build.common.stellardriftReleases
+import ca.stellardrift.build.common.stellardriftSnapshots
+import java.net.URL
+import org.spongepowered.gradle.plugin.config.PluginLoaders
 
 plugins {
-    val pluginVersion = "4.1"
+    val pluginVersion = "4.2.1"
     id("ca.stellardrift.opinionated") version pluginVersion
-    id("ca.stellardrift.configurate-transformations") version pluginVersion
     id("ca.stellardrift.templating") version pluginVersion
+    id("org.spongepowered.gradle.plugin") version "1.0.1"
 }
 
 group = "ca.stellardrift"
@@ -24,29 +26,28 @@ opinionated {
 }
 
 repositories {
-    maven("https://repo.stellardrift.ca/repository/stable/") {
-        name = "stellardriftReleases"
-        mavenContent { releasesOnly() }
-    }
-
-    maven("https://repo.stellardrift.ca/repository/snapshots/") {
-        name = "stellardriftSnapshots"
-        mavenContent { snapshotsOnly() }
-    }
+    stellardriftReleases()
+    stellardriftSnapshots()
 }
 
-dependencies {
-    annotationProcessor(implementation("org.spongepowered:spongeapi:8.0.0-SNAPSHOT")!!)
-}
-
-tasks {
-    processResources {
-        inputs.property("version", version)
-
-        filesMatching("**/*.yml") {
-            expand("project" to project)
-            convertFormat(ConfigFormats.YAML, ConfigFormats.JSON)
-            name = name.substringBeforeLast('.') + ".json"
+sponge {
+    apiVersion("8.0.0")
+    injectRepositories(false)
+    plugin("landiscovery") {
+        displayName("LanDiscovery")
+        loader(PluginLoaders.JAVA_PLAIN)
+        description(project.description)
+        mainClass("ca.stellardrift.landiscovery.LanDiscoveryPlugin")
+        links {
+            homepage.set(indra.scm.map { URL(it.url) })
+            issues.set(indra.issues.map { URL(it.url) })
+            source.set(indra.scm.map { URL(it.url) })
+        }
+        contributor("zml") {
+            description("developer")
+        }
+        dependency("spongeapi") {
+            optional(false)
         }
     }
 }
