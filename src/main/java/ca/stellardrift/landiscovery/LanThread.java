@@ -76,22 +76,22 @@ final class LanThread extends Thread {
 
         return String.format(
                 "[MOTD]%s[/MOTD][AD]%d[/AD]",
-                LegacyComponentSerializer.legacySection().serialize(plugin.getGame().getServer().getMOTD()),
-                plugin.getGame().getServer().getBoundAddress().map(InetSocketAddress::getPort).orElse(25565)
+                LegacyComponentSerializer.legacySection().serialize(plugin.game().server().motd()),
+                plugin.game().server().boundAddress().map(InetSocketAddress::getPort).orElse(25565)
         ).getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     public void run() {
         while (!this.isInterrupted()) {
-            if (!this.plugin.isMuted()) {
+            if (!this.plugin.muted()) {
                 try {
                     byte[] contents = getContents();
                     this.socket.send(new DatagramPacket(contents, contents.length, BROADCAST_ADDRESS, BROADCAST_PORT));
                     this.broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
                 } catch (IOException e) {
                     this.broadcastInterval *= 2;
-                    this.plugin.getLogger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
+                    this.plugin.logger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
                 }
             }
 

@@ -63,19 +63,19 @@ public final class LanDiscoveryPlugin {
     @Listener
     public void registerCommands(final RegisterCommandEvent<Command.Parameterized> event) {
         event.register(this.container, Command.builder()
-                .setShortDescription(Component.text("Toggle muted state of LAN discovery broadcast"))
-                .setPermission("landiscovery.mute")
-                .setExecutor(ctx -> {
-                    setMuted(!isMuted());
-                    final Component message = LinearComponents.linear(NamedTextColor.AQUA, Component.text("LAN broadcast "), muted(this.isMuted()));
+                .shortDescription(Component.text("Toggle muted state of LAN discovery broadcast"))
+                .permission("landiscovery.mute")
+                .executor(ctx -> {
+                    muted(!muted());
+                    final Component message = LinearComponents.linear(NamedTextColor.AQUA, Component.text("LAN broadcast "), mutedLabel(this.muted()));
                     ctx.sendMessage(Identity.nil(), message);
-                    this.logger.info(plain().serialize(message) + " by " + ctx.getFriendlyIdentifier().orElse(ctx.getIdentifier()));
+                    this.logger.info(plain().serialize(message) + " by " + ctx.friendlyIdentifier().orElse(ctx.identifier()));
                     return CommandResult.success();
                 }).build(), "lanmute");
 
     }
 
-    private TextComponent muted(final boolean muted) {
+    private TextComponent mutedLabel(final boolean muted) {
         if (muted) {
             return Component.text("muted", NamedTextColor.RED);
         } else {
@@ -85,7 +85,7 @@ public final class LanDiscoveryPlugin {
 
     @Listener
     public void onServerStarted(final StartedEngineEvent<Server> event) {
-        if (event.getEngine().isDedicatedServer()) {
+        if (event.engine().isDedicatedServer()) {
             final LanThread thread = new LanThread(this);
             if (this.lanThread.compareAndSet(null, thread)) {
                 thread.start();
@@ -107,19 +107,19 @@ public final class LanDiscoveryPlugin {
      *
      * @return mute status
      */
-    public boolean isMuted() {
+    public boolean muted() {
         return this.muted;
     }
 
-    public void setMuted(final boolean muted) {
+    public void muted(final boolean muted) {
         this.muted = muted;
     }
 
-    Game getGame() {
+    Game game() {
         return this.game;
     }
 
-    Logger getLogger() {
+    Logger logger() {
         return this.logger;
     }
 }
