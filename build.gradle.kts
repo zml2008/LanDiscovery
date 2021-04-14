@@ -8,7 +8,7 @@ plugins {
     val pluginVersion = "4.2.1"
     id("ca.stellardrift.opinionated") version pluginVersion
     id("ca.stellardrift.templating") version pluginVersion
-    id("org.spongepowered.gradle.plugin") version "1.0.2"
+    id("org.spongepowered.gradle.plugin") version "1.0.3"
 }
 
 group = "ca.stellardrift"
