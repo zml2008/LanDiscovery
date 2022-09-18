@@ -39,7 +39,7 @@ tasks.jar {
 }
 
 sponge {
-    apiVersion("8.0.0")
+    apiVersion("8.1.0")
     injectRepositories(false)
     plugin("landiscovery") {
         displayName("LanDiscovery")
