@@ -1,6 +1,7 @@
 # Build
 /build/
 /.gradle/
+/run
 
 # IDE
 /.idea

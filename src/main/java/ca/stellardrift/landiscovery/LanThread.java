@@ -1,6 +1,6 @@
 /*
  * LanDiscovery - Broadcast the server this plugin is running on, as if it were a LAN server
- * Copyright ©2015-2020 zml
+ * Copyright �2015-2022 zml
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ final class LanThread extends Thread {
     static {
         try {
             BROADCAST_ADDRESS = InetAddress.getByName("224.0.2.60");
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             throw new ExceptionInInitializerError(e);
         }
     }
@@ -56,16 +56,17 @@ final class LanThread extends Thread {
 
     LanThread(final LanDiscoveryPlugin plugin) {
         super("LAN Discovery");
-        setDaemon(true);
+        this.setDaemon(true);
         this.plugin = plugin;
     }
 
+    @Override
     public void start() {
         try {
             this.socket = new MulticastSocket();
-        } catch (SocketException | UnknownHostException e) {
+        } catch (final SocketException | UnknownHostException e) {
             throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         super.start();
@@ -76,8 +77,8 @@ final class LanThread extends Thread {
 
         return String.format(
                 "[MOTD]%s[/MOTD][AD]%d[/AD]",
-                LegacyComponentSerializer.legacySection().serialize(plugin.game().server().motd()),
-                plugin.game().server().boundAddress().map(InetSocketAddress::getPort).orElse(25565)
+                LegacyComponentSerializer.legacySection().serialize(this.plugin.game().server().motd()),
+                this.plugin.game().server().boundAddress().map(InetSocketAddress::getPort).orElse(25565)
         ).getBytes(StandardCharsets.UTF_8);
     }
 
@@ -86,18 +87,18 @@ final class LanThread extends Thread {
         while (!this.isInterrupted()) {
             if (!this.plugin.muted()) {
                 try {
-                    byte[] contents = getContents();
+                    final byte[] contents = this.getContents();
                     this.socket.send(new DatagramPacket(contents, contents.length, BROADCAST_ADDRESS, BROADCAST_PORT));
                     this.broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     this.broadcastInterval *= 2;
-                    this.plugin.logger().error("Error sending out discovery broadcast, increasing delay to " + broadcastInterval + ": " + e.getLocalizedMessage(), e);
+                    this.plugin.logger().error("Error sending out discovery broadcast, increasing delay to {}: {}", this.broadcastInterval, e.getLocalizedMessage(), e);
                 }
             }
 
             try {
-                Thread.sleep(this.broadcastInterval * 1000);
-            } catch (InterruptedException e1) {
+                Thread.sleep(this.broadcastInterval * 1000L);
+            } catch (final InterruptedException e1) {
                 break;
             }
         }

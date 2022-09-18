@@ -1,6 +1,6 @@
 /*
  * LanDiscovery - Broadcast the server this plugin is running on, as if it were a LAN server
- * Copyright ©2015-2020 zml
+ * Copyright �2015-2022 zml
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -33,11 +33,12 @@ import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
 import org.spongepowered.api.event.lifecycle.StoppingEngineEvent;
 import org.spongepowered.plugin.PluginContainer;
-import org.spongepowered.plugin.jvm.Plugin;
+import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static net.kyori.adventure.text.serializer.plain.PlainComponentSerializer.plain;
+import static net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText;
+
 
 /**
  * A simple sponge plugin
@@ -66,10 +67,10 @@ public final class LanDiscoveryPlugin {
                 .shortDescription(Component.text("Toggle muted state of LAN discovery broadcast"))
                 .permission("landiscovery.mute")
                 .executor(ctx -> {
-                    muted(!muted());
-                    final Component message = LinearComponents.linear(NamedTextColor.AQUA, Component.text("LAN broadcast "), mutedLabel(this.muted()));
+                    this.muted(!this.muted());
+                    final Component message = LinearComponents.linear(NamedTextColor.AQUA, Component.text("LAN broadcast "), this.mutedLabel(this.muted()));
                     ctx.sendMessage(Identity.nil(), message);
-                    this.logger.info(plain().serialize(message) + " by " + ctx.friendlyIdentifier().orElse(ctx.identifier()));
+                    this.logger.info("{} by {}", plainText().serialize(message), ctx.friendlyIdentifier().orElse(ctx.identifier()));
                     return CommandResult.success();
                 }).build(), "lanmute");
 
@@ -103,7 +104,8 @@ public final class LanDiscoveryPlugin {
 
     /**
      * Whether or not the LAN discovery broadcast is muted.
-     * If this is true, broadcasts will not be sent out
+     *
+     * <p>If this is true, broadcasts will not be sent out.</p>
      *
      * @return mute status
      */
