@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "ca.stellardrift"
-version = "2.0-SNAPSHOT"
+version = "2.0.0"
 description = "Let Sponge servers be discovered in the LAN server discovery"
 
 indra {
