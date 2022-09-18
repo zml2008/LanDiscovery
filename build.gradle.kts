@@ -1,4 +1,3 @@
-import ca.stellardrift.build.common.agpl3
 import ca.stellardrift.build.common.stellardriftReleases
 import ca.stellardrift.build.common.stellardriftSnapshots
 import java.net.URL
@@ -20,7 +19,7 @@ indra {
     github("zml2008", "LanDiscovery") {
         ci(true)
     }
-    agpl3()
+    lgpl3OrLaterLicense()
 }
 opinionated {
     automaticModuleNames = true
@@ -29,6 +28,14 @@ opinionated {
 repositories {
     stellardriftReleases()
     stellardriftSnapshots()
+}
+
+tasks.jar {
+    arrayOf("COPYING", "COPYING.LESSER").forEach {src ->
+        from(file(src)) {
+            rename { "${it}_LanDiscovery" }
+        }
+    }
 }
 
 sponge {
