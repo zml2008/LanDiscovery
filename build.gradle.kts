@@ -8,7 +8,7 @@ plugins {
     id("net.kyori.indra") version "2.1.1"
     id("ca.stellardrift.opinionated") version pluginVersion
     id("ca.stellardrift.templating") version pluginVersion
-    id("org.spongepowered.gradle.plugin") version "2.0.1"
+    id("org.spongepowered.gradle.plugin") version "2.0.2"
 }
 
 group = "ca.stellardrift"
