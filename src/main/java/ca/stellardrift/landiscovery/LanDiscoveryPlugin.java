@@ -120,8 +120,4 @@ public final class LanDiscoveryPlugin {
     Game game() {
         return this.game;
     }
-
-    Logger logger() {
-        return this.logger;
-    }
 }

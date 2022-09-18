@@ -18,13 +18,14 @@
 package ca.stellardrift.landiscovery;
 
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
@@ -35,6 +36,8 @@ import java.nio.charset.StandardCharsets;
  * available under the terms of the MIT license.</p>
  */
 final class LanThread extends Thread {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     /**
      * broadcast interval in seconds
      */
@@ -64,10 +67,8 @@ final class LanThread extends Thread {
     public void start() {
         try {
             this.socket = new MulticastSocket();
-        } catch (final SocketException | UnknownHostException e) {
-            throw new RuntimeException(e);
-        } catch (final IOException e) {
-            e.printStackTrace();
+        } catch (final IOException ex) {
+            LOGGER.warn("Failed to create socket for LAN discovery", ex);
         }
         super.start();
     }
@@ -92,7 +93,7 @@ final class LanThread extends Thread {
                     this.broadcastInterval = BROADCAST_INTERVAL; // reset to default once we can successfully send a broadcast
                 } catch (final IOException e) {
                     this.broadcastInterval *= 2;
-                    this.plugin.logger().error("Error sending out discovery broadcast, increasing delay to {}: {}", this.broadcastInterval, e.getLocalizedMessage(), e);
+                    LOGGER.error("Error sending out discovery broadcast, increasing delay to {}: {}", this.broadcastInterval, e.getLocalizedMessage(), e);
                 }
             }
 
