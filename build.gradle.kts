@@ -4,8 +4,8 @@ import java.net.URL
 import org.spongepowered.gradle.plugin.config.PluginLoaders
 
 plugins {
-    val pluginVersion = "5.0.1"
-    id("net.kyori.indra") version "2.1.1"
+    val pluginVersion = "6.0.0"
+    id("net.kyori.indra") version "3.0.0"
     id("ca.stellardrift.opinionated") version pluginVersion
     id("ca.stellardrift.templating") version pluginVersion
     id("org.spongepowered.gradle.plugin") version "2.0.2"
