@@ -1,5 +1,3 @@
-import ca.stellardrift.build.common.stellardriftReleases
-import ca.stellardrift.build.common.stellardriftSnapshots
 import java.net.URL
 import org.spongepowered.gradle.plugin.config.PluginLoaders
 
@@ -26,8 +24,8 @@ opinionated {
 }
 
 repositories {
-    stellardriftReleases()
-    stellardriftSnapshots()
+    stellardrift.releases()
+    stellardrift.snapshots()
 }
 
 tasks.jar {
@@ -36,6 +34,10 @@ tasks.jar {
             rename { "${it}_LanDiscovery" }
         }
     }
+}
+
+spotless {
+    ratchetFrom("origin/trunk")
 }
 
 sponge {
