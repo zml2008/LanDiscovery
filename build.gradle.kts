@@ -13,7 +13,7 @@ plugins {
     id("ca.stellardrift.templating") version pluginVersion
     id("org.spongepowered.gradle.plugin") version spongeGradleVersion
     id("org.spongepowered.gradle.ore") version spongeGradleVersion
-    id("com.modrinth.minotaur") version "2.5.0"
+    id("com.modrinth.minotaur") version "2.6.0"
     id("com.github.breadmoirai.github-release") version "2.4.1"
 }
 
