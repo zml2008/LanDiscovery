@@ -1,11 +1,10 @@
 import org.eclipse.jgit.lib.Repository
-import java.net.URL
 import org.spongepowered.gradle.plugin.config.PluginLoaders
 
 plugins {
     val pluginVersion = "6.1.0"
     val indraVersion = "3.1.3"
-    val spongeGradleVersion = "2.1.1"
+    val spongeGradleVersion = "2.2.0"
 
     id("net.kyori.indra.git") version indraVersion
     id("net.kyori.indra") version indraVersion
@@ -53,11 +52,6 @@ sourceSets.main {
     }
 }
 
-repositories {
-    stellardrift.releases()
-    stellardrift.snapshots()
-}
-
 tasks.jar {
     arrayOf("COPYING", "COPYING.LESSER").forEach {src ->
         from(file(src)) {
@@ -82,9 +76,9 @@ sponge {
         description(project.description)
         entrypoint("ca.stellardrift.landiscovery.LanDiscoveryPlugin")
         links {
-            homepage.set(indra.scm().map { URL(it.url()) })
-            issues.set(indra.issues().map { URL(it.url()) })
-            source.set(indra.scm().map { URL(it.url()) })
+            homepageLink.set(indra.scm().map { uri(it.url()) })
+            issuesLink.set(indra.issues().map { uri(it.url()) })
+            sourceLink.set(indra.scm().map { uri(it.url()) })
         }
         license.set(indra.license().map { it.name() })
         contributor("zml") {
