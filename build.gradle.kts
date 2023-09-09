@@ -10,11 +10,12 @@ plugins {
     id("net.kyori.indra.git") version indraVersion
     id("net.kyori.indra") version indraVersion
     id("ca.stellardrift.opinionated") version pluginVersion
-    id("ca.stellardrift.templating") version pluginVersion
+    id("net.kyori.blossom") version "2.0.1"
     id("org.spongepowered.gradle.plugin") version spongeGradleVersion
     id("org.spongepowered.gradle.ore") version spongeGradleVersion
     id("com.modrinth.minotaur") version "2.8.3"
     id("com.github.breadmoirai.github-release") version "2.4.1"
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
 }
 
 group = "ca.stellardrift"
@@ -43,6 +44,13 @@ indra {
 }
 opinionated {
     automaticModuleNames = true
+}
+
+sourceSets.main {
+    blossom.javaSources {
+        property("name", provider { project.name })
+        property("version", provider { project.version.toString() })
+    }
 }
 
 repositories {
