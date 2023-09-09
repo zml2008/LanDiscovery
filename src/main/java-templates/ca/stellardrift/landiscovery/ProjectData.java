@@ -18,7 +18,7 @@
 package ca.stellardrift.landiscovery;
 
 class ProjectData {
-    public static final String ARTIFACT_ID = "${project.name.toLowerCase()}";
-    public static final String NAME = "${project.name}";
-    public static final String VERSION = "${project.version}";
+    public static final String ARTIFACT_ID = "{{ name | lower }}";
+    public static final String NAME = "{{ name }}";
+    public static final String VERSION = "{{ version }}";
 }
