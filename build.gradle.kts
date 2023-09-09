@@ -3,8 +3,8 @@ import java.net.URL
 import org.spongepowered.gradle.plugin.config.PluginLoaders
 
 plugins {
-    val pluginVersion = "6.0.1"
-    val indraVersion = "3.1.1"
+    val pluginVersion = "6.1.0"
+    val indraVersion = "3.1.3"
     val spongeGradleVersion = "2.1.1"
 
     id("net.kyori.indra.git") version indraVersion
@@ -13,7 +13,7 @@ plugins {
     id("ca.stellardrift.templating") version pluginVersion
     id("org.spongepowered.gradle.plugin") version spongeGradleVersion
     id("org.spongepowered.gradle.ore") version spongeGradleVersion
-    id("com.modrinth.minotaur") version "2.8.0"
+    id("com.modrinth.minotaur") version "2.8.3"
     id("com.github.breadmoirai.github-release") version "2.4.1"
 }
 
