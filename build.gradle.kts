@@ -13,7 +13,7 @@ plugins {
     id("org.spongepowered.gradle.plugin") version spongeGradleVersion
     id("org.spongepowered.gradle.ore") version spongeGradleVersion
     id("com.modrinth.minotaur") version "2.8.3"
-    id("com.github.breadmoirai.github-release") version "2.4.1"
+    id("ca.stellardrift.publish-github-release") version "0.1.0"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
 }
 
@@ -105,18 +105,20 @@ modrinth {
 }
 
 githubRelease {
-    token(providers.gradleProperty("githubToken")
-        .orElse(providers.environmentVariable("GITHUB_TOKEN")))
-    val orgSlashRepo = indra.scm().map {
-        val path = it.url()
-        uri(path).path.trimStart('/').split('/')
-    }
-    owner(orgSlashRepo.map { it[0] })
-    repo(orgSlashRepo.map { it[1] })
+    apiToken = providers.gradleProperty("githubToken")
+            .orElse(providers.environmentVariable("GITHUB_TOKEN"))
 
-    tagName(indraGit.headTag()?.name?.let(Repository::shortenRefName))
-    releaseAssets.from(tasks.jar.map { it.outputs })
-    body.set(changelogContents)
+    repository = indra.scm().map {
+        val orgSlashRepo = uri(it.url()).path.trimStart('/').split('/')
+        "${orgSlashRepo[0]}/${orgSlashRepo[1]}"
+    }
+    tagName = project.provider {
+        indraGit.headTag()?.run { Repository.shortenRefName(name) }
+    }
+
+    releaseName = "LanDiscovery v$version"
+    releaseBody = changelogContents
+    artifacts.from(tasks.jar.map { it.outputs})
 }
 
 oreDeployment {
