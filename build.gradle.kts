@@ -12,7 +12,7 @@ plugins {
     id("net.kyori.blossom") version "2.0.1"
     id("org.spongepowered.gradle.plugin") version spongeGradleVersion
     id("org.spongepowered.gradle.ore") version spongeGradleVersion
-    id("com.modrinth.minotaur") version "2.8.3"
+    id("com.modrinth.minotaur") version "2.8.7"
     id("ca.stellardrift.publish-github-release") version "0.1.0"
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
 }
